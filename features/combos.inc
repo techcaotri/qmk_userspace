@@ -17,6 +17,7 @@ SSTR(dir_up,   "../",    TH_DOT,  TH_SLSH)
 
 COMB(vol_up,   KC_VOLU,  KC_P,    HM_QUOT)
 COMB(vol_dn,   KC_VOLD,  HM_QUOT, TH_SLSH)
+COMB(escape,   KC_ESC,   HM_S,    HM_D)
 
 // Navigation
 COMB(arr_up,   KC_UP,    KC_U,    KC_I)
