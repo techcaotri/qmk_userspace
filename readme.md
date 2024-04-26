@@ -1,4 +1,21 @@
 # Summary
+* A fork of [filterpaper's QMK Userspace](https://github.com/filterpaper/qmk_userspace) for using with the [Holykeebs Corne MX] (https://holykeebs.com/products/corne-cherry).
+* Only build and tested with the custom qmk repo from Holykeebs at https://github.com/idank/qmk_firmware.
+* Build steps:
+    1. Make soft link of the repo at QMK's users folder
+       ``` bash
+       ln -s <prefix>/filterpaper_qmk_userspace/ <QMK>/users/filterpaper
+       ```
+    2. Build the firmware:
+       ``` bash
+       qmk flash users/filterpaper/keymaps/corne.json \
+             -e POINTING_DEVICE=cirque35 \
+             -e POINTING_DEVICE_POSITION=right \
+             -e OLED=yes \
+             -j8
+       ```
+
+# Original Summary
 
 My personal [QMK](https://github.com/qmk/qmk_firmware) *userspace* is a self-contained repository that does not require user files to be placed within keyboard sub-folders. To build it, either place the repository within QMK's [userspace](https://docs.qmk.fm/#/feature_userspace) folder and compile with the JSON files, or use GitHub [Actions](https://docs.github.com/en/actions) to build it in a container with its [workflow](.github/workflows/build.yml).
 
