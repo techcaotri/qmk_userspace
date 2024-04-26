@@ -8,7 +8,7 @@
 ACTN(swap_l, swap_hands_toggle(), KC_X, KC_C, KC_V)
 ACTN(swap_r, swap_hands_toggle(), TH_M, TH_COMM, TH_DOT)
 #endif
-ACTN(tog_ac, autocorrect_toggle(), KC_U, KC_I, KC_O)
+//ACTN(tog_ac, autocorrect_toggle(), KC_U, KC_I, KC_O)
 
 // Macros
 SSTR(vi_quit,  ":q!",    KC_Q,    KC_W)
