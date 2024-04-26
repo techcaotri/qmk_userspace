@@ -28,9 +28,9 @@ COMB(nav_up,   SA_UP,    TH_COMM, TH_DOT)
 COMB(nav_dn,   SA_DN,    TH_M,    TH_COMM)
 
 // Noop thumbs
-COMB(thmb_l,   KC_NO,    SYM_TAB, LCA_ENT)
+COMB(thmb_l,   KC_NO,    FNC, LCA_ENT)
 COMB(thmb_r,   KC_NO,    SFT_SPC, NUM_BSP)
 
 // Layer toggles
 COMB(tog_num,  TG(NUM),  NUM_BSP, KC_N, TH_M)
-COMB(tog_fnc,  TG(FNC),  SYM_TAB, KC_B, KC_V)
+COMB(tog_fnc,  TG(FNC),  FNC, KC_B, KC_V)

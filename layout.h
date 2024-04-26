@@ -29,18 +29,17 @@
 #define HM_K    RGUI_T(KC_K)
 #define HM_L    RALT_T(KC_L)
 #define HM_QUOT RCTL_T(KC_QUOT)
-#define HRML(k1,k2,k3,k4) LCTL_T(k1),LALT_T(k2),LGUI_T(k3),LSFT_T(k4)
-#define HRMR(k1,k2,k3,k4) RSFT_T(k1),RGUI_T(k2),RALT_T(k3),RCTL_T(k4)
+#define HRML(k1,k2,k3,k4) LSFT_T(k1),LCTL_T(k2),LALT_T(k3),LGUI_T(k4)
+#define HRMR(k1,k2,k3,k4) LGUI_T(k1),RALT_T(k2),LCTL_T(k3),LSFT_T(k4)
 
 // Navigation shortcuts
 #define SA_UP S(A(KC_UP))
 #define SA_DN S(A(KC_DOWN))
 
 // Layers
-enum layers { BSE, CMK, NUM, SYM, FNC };
+enum layers { BSE, FNC, NUM, MOU, SYS };
 
 // Thumb keys
-#define SYM_TAB LT(SYM,KC_TAB)
 #define LCA_ENT LCA_T(KC_ENT)
 #define SFT_SPC RSFT_T(KC_SPC)
 #define NUM_BSP LT(NUM,KC_BSPC)
@@ -48,30 +47,30 @@ enum layers { BSE, CMK, NUM, SYM, FNC };
 // Default 3x5_2 split layout
 #define _BASE \
     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    \
-    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,        KC_H,    KC_J,    KC_K,    KC_L,    KC_QUOT, \
+    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,        KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, \
     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,        KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, \
-                               SYM_TAB, LCA_ENT,     SFT_SPC, NUM_BSP
+                               MO(FNC), KC_SPC,      KC_ENT,  MO(NUM)
  /*╭────────┬────────┬────────┬────────┬────────╮   ╭────────┬────────┬────────┬────────┬────────╮
    │  Q     │  W     │  E     │  R     │  T     │   │  Y     │  U     │  I     │  O     │  P     │
    ├────────┼────────┼────────┼────────┼────────┤   ├────────┼────────┼────────┼────────┼────────┤
-   │  A/CTL │  S/ALT │  D/CMD │  F/SFT │  G     │   │  H     │  J/SFT │  K/CMD │  L/ALT │ ' "/CTL│
+   │  A/SFT │  S/CTL │  D/ALT │  F/GUI │  G     │   │  H     │  J/GUI │  K/ALT │  L/CTL │ ; :/SFT│
    ├────────┼────────┼────────┼────────┼────────┤   ├────────┼────────┼────────┼────────┼────────┤
    │  Z     │  X     │  C     │  V     │  B     │   │  N     │  M     │ , <    │ . >    │ / ?    │
    ╰────────┴────────┴────────┼────────┼────────┤   ├────────┼────────┼────────┴────────┴────────╯
-                              │SYM/TAB │LCA/ENT │   │SFT/SFT │NUM/BSPC│
+                              │MO(FNC) │  SPC   │   │  ENT   │ MO(NUM)│
                               ╰────────┴────────╯   ╰────────┴────────╯*/
 
-#define _COLE \
-    KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,        KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOT, \
-    KC_A,    KC_R,    KC_S,    KC_T,    KC_D,        KC_H,    KC_N,    KC_E,    KC_I,    KC_O,    \
-    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,        KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, \
-                               _______, _______,     _______, _______
+#define _FUNC \
+    KC_F12, KC_F7,   KC_F8,   KC_F9,   KC_PSCR,      KC_PGUP, KC_HOME, KC_UP, KC_END, _______, \
+    KC_F11, KC_F4,   KC_F5,   KC_F6,   KC_SCRL,      KC_PGDN, KC_LEFT, KC_DOWN, KC_RIGHT, _______, \
+    KC_F10, KC_F1,   KC_F2,   KC_F3,   KC_PAUS,      KC_INS, KC_DEL, _______, _______, _______, \
+                           _______, _______,      _______, _______
  /*╭────────┬────────┬────────┬────────┬────────╮   ╭────────┬────────┬────────┬────────┬────────╮
-   │  Q     │  W     │  F     │  P     │  G     │   │  J     │  L     │  U     │  Y     │ ' "    │
+   │ F12    │  F7    │  F8    │  F9    │ PSCR   │   │ PGUP   │ HOME   │ UP     │ END    │        │
    ├────────┼────────┼────────┼────────┼────────┤   ├────────┼────────┼────────┼────────┼────────┤
-   │  A/CTL │  R/ALT │  S/CMD │  T/SFT │  D     │   │  H     │  N/SFT │  E/CMD │  I/ALT │  O/CTL │
+   │ F11    │  F4    │  F5    │  F6    │ SCRL   │   │ PGDN   │ LEFT   │ DOWN   │ RIGHT  │        │
    ├────────┼────────┼────────┼────────┼────────┤   ├────────┼────────┼────────┼────────┼────────┤
-   │  Z     │  X     │  C     │  V     │  B     │   │  K     │  M     │ , <    │ . >    │ / ?    │
+   │ F10    │  F1    │  F2    │  F3    │ PAUS   │   │ INSERT │ DELETE │        │        │        │
    ╰────────┴────────┴────────┼────────┼────────┤   ├────────┼────────┼────────┴────────┴────────╯
                               │        │        │   │        │        │
                               ╰────────┴────────╯   ╰────────┴────────╯*/
@@ -91,7 +90,7 @@ enum layers { BSE, CMK, NUM, SYM, FNC };
                               │ FNC    │ ESC    │   │        │        │
                               ╰────────┴────────╯   ╰────────┴────────╯*/
 
-#define _SYMB \
+#define _MOUS \
     _______, KC_LBRC, KC_LCBR, KC_RCBR, _______,     KC_CIRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_TILD, \
     KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,     KC_ASTR, KC_MINS, KC_EQL,  KC_BSLS, KC_GRV,  \
     _______, _______, KC_LT,   KC_GT,   _______,     KC_AMPR, KC_UNDS, KC_PLUS, KC_PIPE, _______, \
@@ -106,20 +105,6 @@ enum layers { BSE, CMK, NUM, SYM, FNC };
                               │        │        │   │        │        │
                               ╰────────┴────────╯   ╰────────┴────────╯*/
 
-#define _FUNC \
-    QK_BOOT, KC_F1,   KC_F2,   KC_F3,   KC_F10,      _______, KC_WH_U, KC_MS_U, KC_WH_D, TG(CMK), \
-    _______, KC_F4,   KC_F5,   KC_F6,   KC_F11,      _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, \
-    Z_SLEEP, KC_F7,   KC_F8,   KC_F9,   KC_F12,      _______, KC_BTN2, KC_BTN1, _______, Z_SSAVE, \
-                               _______, _______,     _______, _______
- /*╭────────┬────────┬────────┬────────┬────────╮   ╭────────┬────────┬────────┬────────┬────────╮
-   │ BOOT   │  F1    │  F2    │  F3    │ F10    │   │        │ WH UP  │ MS UP  │ WH DN  │COLEMAK │
-   ├────────┼────────┼────────┼────────┼────────┤   ├────────┼────────┼────────┼────────┼────────┤
-   │        │  F4    │  F5    │  F6    │ F11    │   │        │ MS LFT │ MS DN  │ MS RHT │        │
-   ├────────┼────────┼────────┼────────┼────────┤   ├────────┼────────┼────────┼────────┼────────┤
-   │ SLEEP  │  F7    │  F8    │  F9    │ F12    │   │        │ BTN 2  │ BTN 1  │        │ SSAVE  │
-   ╰────────┴────────┴────────┼────────┼────────┤   ├────────┼────────┼────────┴────────┴────────╯
-                              │        │        │   │        │        │
-                              ╰────────┴────────╯   ╰────────┴────────╯*/
 
 
 // Mod-tap wrapper
@@ -149,7 +134,7 @@ HRML(l06, l07, l08, l09), l10,   r06, HRMR(r07, r08, r09, r10), \
          l11, l12, l13, l14, l15,   r11, r12, r13, r14, r15, \
                         l16, l17,   r16, r17                 \
 ) \
-KC_TAB,  l01, l02, l03, l04, l05,   r01, r02, r03, r04, r05, KC_BSPC, \
-QK_GESC, l06, l07, l08, l09, l10,   r06, r07, r08, r09, r10, KC_SCLN, \
-KC_LSFT, l11, l12, l13, l14, l15,   r11, r12, r13, r14, r15, KC_ENT,  \
-         RSA_T(KC_ESC), l16, l17,   r16, r17, RAG_T(KC_DEL)
+KC_TAB,  l01, l02, l03, l04, l05,   r01, r02, r03, r04, r05, KC_BSLS, \
+QK_GESC, l06, l07, l08, l09, l10,   r06, r07, r08, r09, r10, KC_QUOT, \
+KC_LSFT, l11, l12, l13, l14, l15,   r11, r12, r13, r14, r15, KC_RSFT,  \
+         MO(MOU), l16, l17,   r16, r17, RAG_T(KC_DEL)
