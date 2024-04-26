@@ -18,6 +18,7 @@
         #define OLED_FONT_H "oledfont.c"
 */
 
+#include "oled_driver.h"
 #include QMK_KEYBOARD_H
 
 
@@ -26,36 +27,46 @@ static void render_logo(void) {
         0x80, 0x81, 0x82, 0x83, 0x84,
         0xa0, 0xa1, 0xa2, 0xa3, 0xa4,
         0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0};
-    static char const katakana[] PROGMEM = {
-        0x20, 0xd1, 0xd2, 0xd3, 0x20, 0};
 
     oled_write_P(corne_logo, false);
-    oled_write_P(layer_state_is(0) ? katakana : PSTR("corne"), false);
+    switch (get_highest_layer(layer_state)) {
+        case BSE: oled_write_ln_P(PSTR("BASE"), false); break;
+        case CMK: oled_write_ln_P(PSTR("COLE"), false); break;
+        case NUM: oled_write_ln_P(PSTR("NUMB"), false); break;
+        case SYM: oled_write_ln_P(PSTR("SYMB"), false); break;
+        case FNC: oled_write_ln_P(PSTR("FUNC"), false); break;
+        default: oled_write_ln_P(PSTR("CORNE"), false);
+    }
 }
 
 
 static void render_layer_state(uint8_t const state) {
-    static char const base_layer[] PROGMEM = {
+    static char const second_layer[] PROGMEM = {
         0x20, 0x9a, 0x9b, 0x9c, 0x20,
         0x20, 0xba, 0xbb, 0xbc, 0x20,
         0x20, 0xda, 0xdb, 0xdc, 0x20, 0};
-    static char const numb_layer[] PROGMEM = {
+    static char const third_layer[] PROGMEM = {
         0x20, 0x94, 0x95, 0x96, 0x20,
         0x20, 0xb4, 0xb5, 0xb6, 0x20,
         0x20, 0xd4, 0xd5, 0xd6, 0x20, 0};
-    static char const symb_layer[] PROGMEM = {
+    static char const top_layer[] PROGMEM = {
         0x20, 0x97, 0x98, 0x99, 0x20,
         0x20, 0xb7, 0xb8, 0xb9, 0x20,
         0x20, 0xd7, 0xd8, 0xd9, 0x20, 0};
-    static char const func_layer[] PROGMEM = {
+    static char const all_layer[] PROGMEM = {
         0x20, 0x9d, 0x9e, 0x9f, 0x20,
         0x20, 0xbd, 0xbe, 0xbf, 0x20,
         0x20, 0xdd, 0xde, 0xdf, 0x20, 0};
+    static char const bottom_layer[] PROGMEM = {
+        0x20, 0x3d, 0x3e, 0x3f, 0x20,
+        0x20, 0x5d, 0x5e, 0x5f, 0x20,
+        0x20, 0x7d, 0x7e, 0x7f, 0x20, 0};
 
-    if      (state == 2) oled_write_P(numb_layer, false);
-    else if (state == 3) oled_write_P(symb_layer, false);
-    else if (state == 4) oled_write_P(func_layer, false);
-    else                 oled_write_P(base_layer, false);
+    if      (state == 2) oled_write_P(third_layer, false);
+    else if (state == 3) oled_write_P(top_layer, false);
+    else if (state == 4) oled_write_P(all_layer, false);
+    else if (state == 1) oled_write_P(second_layer, false);
+    else                 oled_write_P(bottom_layer, false);
 }
 
 
