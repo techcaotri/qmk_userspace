@@ -105,7 +105,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef COMBO_SHOULD_TRIGGER
         if (record->event.type != COMBO_EVENT) input_timer = timer_read_fast();
 #endif
-        if (!process_autocorrect(keycode, record) || !process_caps_unlock(keycode, record)) return false;
+        if (!process_caps_unlock(keycode, record)) return false;
 
         // Clipboard shortcuts
         if      (keycode == TH_M)    return process_tap_hold(Z_PST, record);
@@ -127,3 +127,11 @@ uint16_t keycode_config(uint16_t keycode) { return keycode; }
 #ifndef DIRECT_PINS
 void matrix_io_delay(void) { __asm__ volatile("nop\nnop\nnop\n"); }
 #endif
+
+void keyboard_post_init_user(void) {
+  // Customise these values to desired behaviour
+  debug_enable=true;
+  debug_matrix=true;
+  //debug_keyboard=true;
+  //debug_mouse=true;
+}
