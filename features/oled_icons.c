@@ -31,10 +31,10 @@ static void render_logo(void) {
     oled_write_P(corne_logo, false);
     switch (get_highest_layer(layer_state)) {
         case BSE: oled_write_ln_P(PSTR("BASE"), false); break;
-        case CMK: oled_write_ln_P(PSTR("COLE"), false); break;
         case NUM: oled_write_ln_P(PSTR("NUMB"), false); break;
-        case SYM: oled_write_ln_P(PSTR("SYMB"), false); break;
+        case MOU: oled_write_ln_P(PSTR("MOUS"), false); break;
         case FNC: oled_write_ln_P(PSTR("FUNC"), false); break;
+        case SYS: oled_write_ln_P(PSTR("SYS"), false); break;
         default: oled_write_ln_P(PSTR("CORNE"), false);
     }
 }
