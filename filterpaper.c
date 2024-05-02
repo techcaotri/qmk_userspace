@@ -135,3 +135,10 @@ void keyboard_post_init_user(void) {
   //debug_keyboard=true;
   //debug_mouse=true;
 }
+
+void my_caps_word_toggle(void) {
+    uprintf("my_caps_word_toggle\n");
+    tap_code(KC_CAPS);
+    // uprintf("caps_word_set_user, active: 0x%04X\n",active);
+}
+

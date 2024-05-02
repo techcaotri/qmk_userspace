@@ -21,8 +21,7 @@
 #include "oled_driver.h"
 #include QMK_KEYBOARD_H
 
-
-static void render_logo(void) {
+void render_logo(void) {
     static char const corne_logo[] PROGMEM = {
         0x80, 0x81, 0x82, 0x83, 0x84,
         0xa0, 0xa1, 0xa2, 0xa3, 0xa4,
@@ -110,6 +109,7 @@ static void render_gui_alt(uint8_t const gui, uint8_t const alt) {
 
 
 static void render_ctrl_shift(uint8_t const ctrl, uint8_t const shift) {
+    uprintf("render_ctrl_shift, ctrl=%d, shift=%d\n", ctrl, shift);
     static char const ctrl_off_1[] PROGMEM = {0x89, 0x8a, 0};
     static char const ctrl_off_2[] PROGMEM = {0xa9, 0xaa, 0};
     static char const ctrl_on_1[]  PROGMEM = {0x91, 0x92, 0};
@@ -146,7 +146,6 @@ static void render_ctrl_shift(uint8_t const ctrl, uint8_t const shift) {
     else               oled_write_P(off_off_2, false);
     oled_write_P(shift ? shift_on_2 : shift_off_2, false);
 }
-
 
 // Primary modifier status display function
 void render_mod_status(void) {

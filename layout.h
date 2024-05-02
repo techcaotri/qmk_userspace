@@ -21,16 +21,16 @@
 #define TH(k1,k2,k3,k4) LT(0,k1),LT(0,k2),LT(0,k3),LT(0,k4)
 
 // Mod tap macros
-#define HM_A    LCTL_T(KC_A)
-#define HM_S    LALT_T(KC_S)
-#define HM_D    LGUI_T(KC_D)
-#define HM_F    LSFT_T(KC_F)
-#define HM_J    RSFT_T(KC_J)
-#define HM_K    RGUI_T(KC_K)
-#define HM_L    RALT_T(KC_L)
-#define HM_QUOT RCTL_T(KC_QUOT)
+#define HM_A    LSFT_T(KC_A)
+#define HM_S    LCTL_T(KC_S)
+#define HM_D    LALT_T(KC_D)
+#define HM_F    LGUI_T(KC_F)
+#define HM_J    RGUI_T(KC_J)
+#define HM_K    RALT_T(KC_K)
+#define HM_L    RCTL_T(KC_L)
+#define HM_QUOT RSFT_T(KC_QUOT)
 #define HRML(k1,k2,k3,k4) LSFT_T(k1),LCTL_T(k2),LALT_T(k3),LGUI_T(k4)
-#define HRMR(k1,k2,k3,k4) LGUI_T(k1),RALT_T(k2),LCTL_T(k3),LSFT_T(k4)
+#define HRMR(k1,k2,k3,k4) RGUI_T(k1),RALT_T(k2),RCTL_T(k3),RSFT_T(k4)
 
 // Navigation shortcuts
 #define SA_UP S(A(KC_UP))
@@ -117,7 +117,7 @@ enum layers { BSE, FNC, NUM, MOU, SYS };
 ) \
       l01, l02, l03, l04, l05,   r01, r02, r03, r04, r05,       \
 HRML(l06, l07, l08, l09), l10,   r06, HRMR(r07, r08, r09, r10), \
-      l11, l12, l13, l14, l15,   r11,   TH(r12, r13, r14, r15), \
+      l11, l12, l13, l14, l15,   r11, r12, r13, r14, r15, \
                      l16, l17,   r16, r17
 
 
@@ -135,6 +135,6 @@ HRML(l06, l07, l08, l09), l10,   r06, HRMR(r07, r08, r09, r10), \
                         l16, l17,   r16, r17                 \
 ) \
 KC_TAB,  l01, l02, l03, l04, l05,   r01, r02, r03, r04, r05, KC_BSLS, \
-QK_GESC, l06, l07, l08, l09, l10,   r06, r07, r08, r09, r10, KC_QUOT, \
+KC_ESC,  l06, l07, l08, l09, l10,   r06, r07, r08, r09, r10, KC_QUOT, \
 KC_LSFT, l11, l12, l13, l14, l15,   r11, r12, r13, r14, r15, KC_RSFT,  \
          MO(MOU), l16, l17,   r16, r17, RAG_T(KC_DEL)
