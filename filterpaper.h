@@ -5,9 +5,11 @@
 #include QMK_KEYBOARD_H
 
 #include "autocorrect.h"
+void my_caps_word_toggle(void);
 #ifdef COMBO_ENABLE
 #   include "combos.h"
 #endif
+
 
 // Convert 5-bit packed mod-tap modifiers to 8-bit packed MOD_MASK modifiers
 #define MOD_TAP_GET_MOD_BITS(kc) (((kc) & 0x0f00) >> (((kc) & 0x1000) ? 4 : 8))

@@ -19,7 +19,7 @@
     "layers": [
         [ "C_42(HRM(_BASE))" ],
         [ "C_42(HRM(_FUNC))" ]
-        [ "C_42(_NUMB)" ],
+        [ "C_42(HRM(_NUMB))" ],
         [ "C_42(_MOUS)" ],
     ]
 }

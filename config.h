@@ -62,6 +62,8 @@
 #   define CMK_MODE RGB_MATRIX_CUSTOM_CANDY_RAIN
 #endif
 
+// TriPham: press both shift to enable caps word
+#define CAPS_WORD_INVERT_ON_SHIFT
 
 // Start of idank 'config.h'
 #undef MASTER_LEFT
@@ -147,6 +149,7 @@
 
 #ifdef OLED_ENABLE
     #define SPLIT_MODS_ENABLE
+    #define SPLIT_LED_STATE_ENABLE
     #define SPLIT_LAYER_STATE_ENABLE
 #endif
 
