@@ -106,14 +106,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.type != COMBO_EVENT) input_timer = timer_read_fast();
 #endif
         if (!process_caps_unlock(keycode, record)) return false;
-
-        // Clipboard shortcuts
-        if      (keycode == TH_M)    return process_tap_hold(Z_PST, record);
-        else if (keycode == TH_COMM) return process_tap_hold(Z_CPY, record);
-        else if (keycode == TH_DOT)  return process_tap_hold(Z_CUT, record);
-        else if (keycode == TH_SLSH) return process_tap_hold(Z_UND, record);
     }
-
+    switch (keycode) {
+        case RAG_T(KC_LPRN):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_LPRN); // Send KC_LPRN on tap
+                return false;        // Return false to ignore further processing of key
+            }
+            break;
+        case LCA_T(KC_RPRN):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_RPRN); // Send KC_RPRN on tap
+                return false;        // Return false to ignore further processing of key
+            }
+            break;
+    }
     return true;
 }
 

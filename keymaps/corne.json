@@ -20,6 +20,7 @@
         [ "C_42(HRM(_BASE))" ],
         [ "C_42(HRM(_FUNC))" ]
         [ "C_42(HRM(_NUMB))" ],
-        [ "C_42(_MOUS)" ],
+        [ "C_42_MOUS(_MOUS)" ],
+        [ "C_42(_SYS)" ],
     ]
 }

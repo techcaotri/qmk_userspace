@@ -16,8 +16,15 @@ ACTN(tog_caps, my_caps_word_toggle(), KC_LSFT, KC_RSFT)
 //SSTR(vi_save,  ":x",     KC_Z,    KC_X)
 SSTR(dir_up,   "../",    TH_DOT,  TH_SLSH)
 
-COMB(vol_up,   KC_VOLU,  KC_P,    HM_QUOT)
-COMB(vol_dn,   KC_VOLD,  HM_QUOT, TH_SLSH)
+// Special combos
+COMB(tog_func,        TG(FNC), MO(FNC), KC_RSFT)
+COMB(tog_numb,        TG(NUM), MO(NUM), KC_RSFT)
+COMB(tog_mouse,       TG(MOU), MO(MOU), KC_RSFT)
+COMB(mo_sys_left,     MO(SYS), MO(MOU), MO(FNC))
+COMB(mo_sys_right,    MO(SYS), MO(NUM), RAG_T(KC_DEL))
+
+COMB(vol_up,   KC_VOLU,  KC_P,    HM_SCLN)
+COMB(vol_dn,   KC_VOLD,  HM_SCLN, TH_SLSH)
 
 // Noop thumbs
 COMB(thmb_l,   KC_NO,    FNC, LCA_ENT)
@@ -26,18 +33,31 @@ COMB(thmb_r,   KC_NO,    SFT_SPC, NUM_BSP)
 // Layer toggles
 COMB(tog_num,  TG(NUM),  NUM_BSP, KC_N, TH_M)
 COMB(tog_fnc,  TG(FNC),  FNC, KC_B, KC_V)
-<<<<<<< HEAD
-=======
 
 /* Horizontal combos - left hand */
+COMB(comb_base_esc,     KC_ESC,   KC_W, KC_E)
+COMB(comb_base_enter,   KC_ENT,   KC_E, KC_R)
 
+COMB(comb_base_a,       C_S_T(KC_NO),  HM_A, HM_S)
+COMB(comb_base_tab,     LCA_T(KC_TAB), HM_S, HM_D)
+COMB(comb_base_spc,     LAG_T(KC_NO),  HM_D, HM_F)
+
+COMB(comb_base_cut,     LCTL(KC_X),    KC_X, KC_V)
+COMB(comb_base_copy,    LCTL(KC_INS),  KC_X, KC_C)
+COMB(comb_base_paste,   LCTL(KC_INS),  HM_D, HM_F)
 
 /* Horizontal combos - right hand */
 COMB(comb_base_bspc,    KC_BSPC,  KC_U, KC_I)
 COMB(comb_base_del,     KC_DEL,   KC_I, KC_O)
-COMB(comb_base_lprn,    KC_LPRN,  HM_J, HM_K)
-COMB(comb_base_rprn,    KC_RPRN,  HM_K, HM_L)
 
+// QMK has issues with Shifted keycodes, refer to: https://thomasbaart.nl/2018/12/09/qmk-basics-tap-and-hold-actions/ and
+// https://docs.qmk.fm/#/mod_tap?id=caveats
+COMB(comb_base_lprn,    RAG_T(KC_LPRN),  HM_J, HM_K)
+COMB(comb_base_rprn,    LCA_T(KC_RPRN),  HM_K, HM_L)
+COMB(comb_base_seco,    RCS_T(KC_SCLN),  HM_L, HM_SCLN)
+
+COMB(comb_base_lbrc,    KC_LBRC,  KC_M, KC_COMM)
+COMB(comb_base_rbrc,    KC_RBRC,  KC_COMM, KC_DOT)
 
 /* Vertical combos - left hand */
 COMB(comb_base_at,      KC_AT,    KC_W, HM_S)
@@ -60,5 +80,3 @@ COMB(comb_base_unds,    KC_UNDS,  KC_H, KC_N)
 COMB(comb_base_pmns,    KC_PMNS,  HM_J, KC_M)
 COMB(comb_base_psls,    KC_PSLS,  HM_K, KC_COMM)
 COMB(comb_base_pipe,    KC_PIPE, HM_L, KC_DOT)
-
->>>>>>> f6eaffc2b00d08c1990ad61a5201fb1dc7a4c4a8

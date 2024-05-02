@@ -10,6 +10,8 @@ COMBO_ENABLE = yes
 CONSOLE_ENABLE = yes
 SPLIT_KEYBOARD = yes
 # SWAP_HANDS_ENABLE = yes
+
+# Tri Pham add options
 CAPS_WORD_ENABLE = yes
 
 # MAKECMDGOALS = uf2-split-$(SPLIT)
