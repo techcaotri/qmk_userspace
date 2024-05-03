@@ -7,7 +7,7 @@ SPACE_CADET_ENABLE = no
 # Enable common features
 LTO_ENABLE = yes
 COMBO_ENABLE = yes
-CONSOLE_ENABLE = yes
+CONSOLE_ENABLE = no
 SPLIT_KEYBOARD = yes
 # SWAP_HANDS_ENABLE = yes
 
