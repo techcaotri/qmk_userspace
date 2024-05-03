@@ -55,7 +55,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     // Send Control or Shift with a nested key press on the opposite hand
-    return IS_BILATERAL(record, next_record) && IS_MOD_TAP_CS(keycode);
+    return IS_BILATERAL(record, next_record) && IS_MOD_TAP_CSAG(keycode);
 }
 
 
@@ -144,7 +144,7 @@ void keyboard_post_init_user(void) {
 }
 
 void my_caps_word_toggle(void) {
-    uprintf("my_caps_word_toggle\n");
+    // uprintf("my_caps_word_toggle\n");
     tap_code(KC_CAPS);
     // uprintf("caps_word_set_user, active: 0x%04X\n",active);
 }

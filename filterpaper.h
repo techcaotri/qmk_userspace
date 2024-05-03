@@ -21,6 +21,7 @@ void my_caps_word_toggle(void);
 #define IS_MOD_TAP_SHIFT(kc) (IS_QK_MOD_TAP(kc) && (kc) & (QK_LSFT))
 #define IS_MOD_TAP_CS(kc)    (IS_QK_MOD_TAP(kc) && (kc) & (QK_LCTL | QK_LSFT))
 #define IS_MOD_TAP_CAG(kc)   (IS_QK_MOD_TAP(kc) && (kc) & (QK_LCTL | QK_LALT | QK_LGUI))
+#define IS_MOD_TAP_CSAG(kc)   (IS_QK_MOD_TAP(kc) && (kc) & (QK_LCTL | QK_LSFT | QK_LALT | QK_LGUI))
 #define IS_LAYER_TAP(kc)     (IS_QK_LAYER_TAP(kc) && QK_LAYER_TAP_GET_LAYER(kc))
 
 #define IS_TYPING(kc) ( \
