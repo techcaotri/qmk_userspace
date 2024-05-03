@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0+
 
 #include "filterpaper.h"
+#include "keycodes.h"
 
 static uint16_t    next_keycode;
 static keyrecord_t next_record;
@@ -23,12 +24,12 @@ bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
         uint8_t const tap_keycode = GET_TAP_KEYCODE(keycode);
         // Press the tap keycode when precedeed by short text input interval
         if (record->event.pressed && IS_TYPING(prev_keycode)) {
-            record->keycode = tap_keycode;
+            // uprintf("pre_process_record_user: Press the tap keycode\n");
             is_pressed[tap_keycode] = true;
         }
         // Release the tap keycode if pressed
         else if (!record->event.pressed && is_pressed[tap_keycode]) {
-            record->keycode = tap_keycode;
+            // uprintf("pre_process_record_user: Release the tap keycode\n");
             is_pressed[tap_keycode] = false;
         }
     }
@@ -43,6 +44,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 
     // Sent its tap keycode when non-Shift overlaps with another key on the same hand
     if (IS_UNILATERAL(record, next_record) && !IS_MOD_TAP_SHIFT(next_keycode)) {
+        uprintf("pre_process_record_user: Release the tap keycode\n");
         record->keycode = GET_TAP_KEYCODE(keycode);
         process_record(record);
         record->event.pressed = false;
