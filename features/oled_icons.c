@@ -28,6 +28,7 @@ void render_logo(void) {
         0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0};
 
     oled_write_P(corne_logo, false);
+    oled_write_ln_P(PSTR("\n"), false);
     switch (get_highest_layer(layer_state)) {
         case BSE: oled_write_ln_P(PSTR("BASE"), false); break;
         case NUM: oled_write_ln_P(PSTR("NUMB"), false); break;
