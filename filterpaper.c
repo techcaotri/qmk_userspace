@@ -43,13 +43,13 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     if (IS_LAYER_TAP(keycode)) return true;
 
     // Sent its tap keycode when non-Shift overlaps with another key on the same hand
-    if (IS_UNILATERAL(record, next_record) && !IS_MOD_TAP_SHIFT(next_keycode)) {
-        uprintf("pre_process_record_user: Release the tap keycode\n");
-        record->keycode = GET_TAP_KEYCODE(keycode);
-        process_record(record);
-        record->event.pressed = false;
-        process_record(record);
-    }
+    // if (IS_UNILATERAL(record, next_record) && !IS_MOD_TAP_SHIFT(next_keycode)) {
+    //     uprintf("pre_process_record_user: Release the tap keycode\n");
+    //     record->keycode = GET_TAP_KEYCODE(keycode);
+    //     process_record(record);
+    //     record->event.pressed = false;
+    //     process_record(record);
+    // }
 
     return false;
 }
