@@ -21,7 +21,7 @@ COMB(tog_func,        TG(FNC), MO(FNC), KC_RSFT)
 COMB(tog_numb,        TG(NUM), MO(NUM), KC_RSFT)
 COMB(tog_mouse,       TG(MOU), MO(MOU), KC_RSFT)
 COMB(mo_sys_left,     MO(SYS), MO(MOU), MO(FNC))
-COMB(mo_sys_right,    MO(SYS), MO(NUM), RAG_T(KC_DEL))
+COMB(mo_sys_right,    MO(SYS), MO(NUM), KC_LGUI)
 
 COMB(vol_up,   KC_VOLU,  KC_P,    HM_SCLN)
 COMB(vol_dn,   KC_VOLD,  HM_SCLN, TH_SLSH)
