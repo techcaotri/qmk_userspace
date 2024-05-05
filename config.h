@@ -30,7 +30,7 @@
 #endif
 
 #ifdef COMBO_ENABLE
-#   define COMBO_TERM 35
+#   define COMBO_TERM 45
 #   define EXTRA_SHORT_COMBOS
 #   define COMBO_SHOULD_TRIGGER
 // #   define COMBO_ONLY_FROM_LAYER 0
