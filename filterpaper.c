@@ -38,33 +38,49 @@ bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 
+#ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     // Activate layer with another key press
     if (IS_LAYER_TAP(keycode)) return true;
 
-    // Sent its tap keycode when non-Shift overlaps with another key on the same hand
-    // if (IS_UNILATERAL(record, next_record) && !IS_MOD_TAP_SHIFT(next_keycode)) {
-    //     uprintf("pre_process_record_user: Release the tap keycode\n");
-    //     record->keycode = GET_TAP_KEYCODE(keycode);
-    //     process_record(record);
-    //     record->event.pressed = false;
-    //     process_record(record);
-    // }
-
+    // from jbarr21_qmk_userspace
+    return (keycode >= QK_MOD_TAP) && (keycode <= QK_MOD_TAP_MAX) && !(IS_HRM(keycode));
     return false;
 }
+#endif
 
 
+#ifdef PERMISSIVE_HOLD_PER_KEY
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     // Send Control or Shift with a nested key press on the opposite hand
-    return IS_BILATERAL(record, next_record) && IS_MOD_TAP_CSAG(keycode);
+    if (IS_BILATERAL(record, next_record) && IS_MOD_TAP_CSAG(keycode)) return true;
+
+    // from jbarr21_qmk_userspace
+    return IS_HRM(keycode) ? false : true;
 }
+#endif
 
 
+#ifdef TAPPING_TERM_PER_KEY
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    // Decrease tapping term for Shift
-    return IS_MOD_TAP_SHIFT(keycode) ? TAPPING_TERM - 50 : TAPPING_TERM;
+    // from jbarr21_qmk_userspace
+    if (IS_HRM(keycode)) {
+        if (keycode >> 8 & MOD_MASK_SHIFT) {
+            return TAPPING_TERM + 50;
+        }
+        return TAPPING_TERM + 100;
+    }
+    return TAPPING_TERM;
 }
+#endif
+
+
+// from jbarr21_qmk_userspace
+#ifdef QUICK_TAP_TERM_PER_KEY
+uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
+    return IS_HRM(keycode) ? 0 : QUICK_TAP_TERM;
+}
+#endif
 
 
 // Turn off caps lock at a word boundry
@@ -145,7 +161,7 @@ void keyboard_post_init_user(void) {
   //debug_mouse=true;
 }
 
-void my_caps_word_toggle(void) {
+void my_caps_lock_toggle(void) {
     // uprintf("my_caps_word_toggle\n");
     tap_code(KC_CAPS);
     // uprintf("caps_word_set_user, active: 0x%04X\n",active);

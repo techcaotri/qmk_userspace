@@ -5,7 +5,7 @@
 #include QMK_KEYBOARD_H
 
 #include "autocorrect.h"
-void my_caps_word_toggle(void);
+void my_caps_lock_toggle(void);
 #ifdef COMBO_ENABLE
 #   include "combos.h"
 #endif
@@ -36,3 +36,10 @@ void my_caps_word_toggle(void);
 #define IS_BILATERAL(r, n) ( \
     (r->event.key.row == 1 && 4 <= n.event.key.row && n.event.key.row <= 7) || \
     (r->event.key.row == 5 && 0 <= n.event.key.row && n.event.key.row <= 3) )
+
+// from jbarr21_qmk_userspace
+#define IS_HRM(keycode) \
+    keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX \
+    && (((keycode & 0xff) <= KC_Z && (keycode & 0xff) >= KC_A) \
+        || (keycode & 0xff) == KC_QUOT || (keycode & 0xff) == KC_TAB)
+
