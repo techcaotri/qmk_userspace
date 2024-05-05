@@ -52,8 +52,8 @@ COMB(comb_base_del,     KC_DEL,   KC_I, KC_O)
 
 // QMK has issues with Shifted keycodes, refer to: https://thomasbaart.nl/2018/12/09/qmk-basics-tap-and-hold-actions/ and
 // https://docs.qmk.fm/#/mod_tap?id=caveats
-COMB(comb_base_lprn,    RAG_T(KC_LPRN),  HM_J, HM_K)
-COMB(comb_base_rprn,    LCA_T(KC_RPRN),  HM_K, HM_L)
+COMB(comb_base_lprn,    KC_LPRN,  HM_J, HM_K)
+COMB(comb_base_rprn,    RCA_T(KC_RPRN),  HM_K, HM_L)
 COMB(comb_base_seco,    RCS_T(KC_SCLN),  HM_L, HM_SCLN)
 
 COMB(comb_base_lbrc,    KC_LBRC,  KC_M, KC_COMM)

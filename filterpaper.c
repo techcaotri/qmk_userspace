@@ -4,39 +4,6 @@
 #include "filterpaper.h"
 #include "keycodes.h"
 
-static uint16_t    next_keycode;
-static keyrecord_t next_record;
-
-
-bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
-    static uint16_t prev_keycode;
-    static bool     is_pressed[UINT8_MAX];
-
-    // Cache previous and next input for tap-hold decisions
-    if (record->event.pressed) {
-        prev_keycode = next_keycode;
-        next_keycode = keycode;
-        next_record  = *record;
-    }
-
-    // Override non-Shift tap-hold keys based on previous input
-    if (IS_HOMEROW(record) && IS_MOD_TAP_CAG(keycode)) {
-        uint8_t const tap_keycode = GET_TAP_KEYCODE(keycode);
-        // Press the tap keycode when precedeed by short text input interval
-        if (record->event.pressed && IS_TYPING(prev_keycode)) {
-            // uprintf("pre_process_record_user: Press the tap keycode\n");
-            is_pressed[tap_keycode] = true;
-        }
-        // Release the tap keycode if pressed
-        else if (!record->event.pressed && is_pressed[tap_keycode]) {
-            // uprintf("pre_process_record_user: Release the tap keycode\n");
-            is_pressed[tap_keycode] = false;
-        }
-    }
-
-    return true;
-}
-
 
 #ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
@@ -44,19 +11,15 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     if (IS_LAYER_TAP(keycode)) return true;
 
     // from jbarr21_qmk_userspace
-    return (keycode >= QK_MOD_TAP) && (keycode <= QK_MOD_TAP_MAX) && !(IS_HRM(keycode));
-    return false;
+    return (keycode >= QK_MOD_TAP) && (keycode <= QK_MOD_TAP_MAX) && !(IS_HOMEROW(record));
 }
 #endif
 
 
 #ifdef PERMISSIVE_HOLD_PER_KEY
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
-    // Send Control or Shift with a nested key press on the opposite hand
-    if (IS_BILATERAL(record, next_record) && IS_MOD_TAP_CSAG(keycode)) return true;
-
     // from jbarr21_qmk_userspace
-    return IS_HRM(keycode) ? false : true;
+    return IS_HOMEROW(record) ? false : true;
 }
 #endif
 
@@ -64,11 +27,11 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 #ifdef TAPPING_TERM_PER_KEY
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     // from jbarr21_qmk_userspace
-    if (IS_HRM(keycode)) {
+    if (IS_HOMEROW(record)) {
         if (keycode >> 8 & MOD_MASK_SHIFT) {
-            return TAPPING_TERM + 50;
+            return TAPPING_TERM + 40;
         }
-        return TAPPING_TERM + 100;
+        return TAPPING_TERM + 80;
     }
     return TAPPING_TERM;
 }
@@ -78,10 +41,69 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 // from jbarr21_qmk_userspace
 #ifdef QUICK_TAP_TERM_PER_KEY
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
-    return IS_HRM(keycode) ? 0 : QUICK_TAP_TERM;
+    return IS_HOMEROW(record) ? 0 : QUICK_TAP_TERM;
 }
 #endif
 
+
+#ifdef ACHORDION_ENABLE
+#include "achordion.h"
+
+void matrix_scan_user(void) {
+  achordion_task();
+}
+
+bool achordion_chord(uint16_t tap_hold_keycode,
+                     keyrecord_t* tap_hold_record,
+                     uint16_t other_keycode,
+                     keyrecord_t* other_record) {
+  uprintf("achordion_chord\n");
+  switch (tap_hold_keycode) {
+    // Left thumb combo
+    case TH_L1:  
+      if (other_keycode == TH_L2) { return true; }
+      break;
+    case TH_L2:
+      if (other_keycode == TH_L1) { return true; }
+      break;
+    
+    // Right thumb combo
+    case TH_R1:  
+      if (other_keycode == TH_R3) { return true; }
+      break;
+    case TH_R3:
+      if (other_keycode == TH_R1) { return true; }
+      break;
+  }
+
+  // allow same-hand holds when the other key is in the rows above or 
+  // below the home-row mod
+  // uprintf("achordion_chord: tap_hold_record->event.key.row=%d\n", tap_hold_record->event.key.row);
+  uprintf("achordion_chord: tap_hold_keycode=%04x\n", tap_hold_keycode);
+  bool is_hrm = IS_HRM(tap_hold_keycode);
+  uprintf("achordion_chord: IS_HRM=%d\n", is_hrm);
+  if (IS_HRM(tap_hold_keycode)) {
+      uprintf("achordion_chord other_record->event.key.row=%d\n", other_record->event.key.row);
+      static int ROWS_PER_SPLIT = MATRIX_ROWS / 2;
+      // the home-rows are 1 and ROWS_PER_SPLIT+1 respectively on left and righ half
+      if ((other_record->event.key.row % ROWS_PER_SPLIT != 1) ||
+          (tap_hold_record->event.key.row != other_record->event.key.row)){
+          return true;
+      }
+  }
+  return achordion_opposite_hands(tap_hold_record, other_record);
+}
+
+uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
+  switch (tap_hold_keycode) {
+    case TH_R1:  // allow same-hand symbols
+    case TH_R2:  // allow same-hand shift
+      return 0;  // Bypass Achordion for these keys.
+  }
+
+  return 800;  // Otherwise use a timeout of 800 ms.
+}
+#endif
 
 // Turn off caps lock at a word boundry
 static inline bool process_caps_unlock(uint16_t keycode, keyrecord_t *record) {
@@ -110,15 +132,12 @@ static inline bool process_caps_unlock(uint16_t keycode, keyrecord_t *record) {
 }
 
 
-// Send custom hold keycode
-static inline bool process_tap_hold(uint16_t keycode, keyrecord_t *record) {
-    if (record->tap.count) return true;
-    tap_code16(keycode);
-    return false;
-}
-
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // from jbarr21_qmk_userspace
+    #ifdef ACHORDION_ENABLE
+    if (!process_achordion(keycode, record)) { return false; }
+    #endif
+
     if (record->event.pressed) {
 #ifdef COMBO_SHOULD_TRIGGER
         if (record->event.type != COMBO_EVENT) input_timer = timer_read_fast();

@@ -7,7 +7,7 @@ SPACE_CADET_ENABLE = no
 # Enable common features
 LTO_ENABLE = yes
 COMBO_ENABLE = yes
-CONSOLE_ENABLE = no
+CONSOLE_ENABLE = yes
 SPLIT_KEYBOARD = yes
 # SWAP_HANDS_ENABLE = yes
 
@@ -18,6 +18,9 @@ CAPS_WORD_ENABLE = yes
 VPATH += $(USER_PATH)/features
 INTROSPECTION_KEYMAP_C = filterpaper.c
 # SRC += autocorrect.c
+
+# TriPham add achordion code from jbarr21_qmk_userspace
+SRC += achordion.c
 
 # TriPham add options from command line
 POINTING_DEVICE=cirque35

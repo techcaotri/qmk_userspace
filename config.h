@@ -9,6 +9,7 @@
 // Space saving options
 #define LAYER_STATE_8BIT
 #define NO_ACTION_ONESHOT
+
 // Tap-hold settings
 #define INPUT_INTERVAL TAPPING_TERM
 
@@ -19,6 +20,9 @@
 #define QUICK_TAP_TERM_PER_KEY
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 #define PERMISSIVE_HOLD_PER_KEY
+
+#define ACHORDION_ENABLE
+
 
 
 #ifdef SPLIT_KEYBOARD

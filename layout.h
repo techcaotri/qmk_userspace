@@ -20,6 +20,9 @@
 #define TH_SLSH LT(0,KC_SLSH)
 #define TH(k1,k2,k3,k4) LT(0,k1),LT(0,k2),LT(0,k3),LT(0,k4)
 
+// TriPham define macros RCA_T to use for combos since there's only LCA_T 
+// it helps the achordion_opposite_hands() function to work properly
+#define RCA_T(kc) MT(MOD_RCTL | MOD_RALT, kc) // Right Control + Alt
 // Mod tap macros
 #define HM_A    LSFT_T(KC_A)
 #define HM_S    LCTL_T(KC_S)
@@ -43,6 +46,17 @@ enum layers { BSE, FNC, NUM, MOU, SYS };
 #define LCA_ENT LCA_T(KC_ENT)
 #define SFT_SPC RSFT_T(KC_SPC)
 #define NUM_BSP LT(NUM,KC_BSPC)
+
+// from jbarr21_qmk_userspace
+// Thumb keys
+#define TH_L3 MO(MOU)
+#define TH_L1 MO(FNC) 
+#define TH_L2 KC_SPC
+
+#define TH_R2 KC_ENT  
+#define TH_R1 MO(NUM)
+#define TH_R3 KC_LGUI
+
 
 // Default 3x5_2 split layout
 #define _BASE \
