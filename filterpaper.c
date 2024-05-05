@@ -41,7 +41,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 // from jbarr21_qmk_userspace
 #ifdef QUICK_TAP_TERM_PER_KEY
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
-    return IS_HOMEROW(record) ? 0 : QUICK_TAP_TERM;
+    return IS_HOMEROW(record) ? QUICK_TAP_TERM / 2 : QUICK_TAP_TERM;
 }
 #endif
 
