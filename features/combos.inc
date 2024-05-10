@@ -77,6 +77,6 @@ COMB(comb_base_astr,    KC_ASTR,  KC_I, HM_K)
 COMB(comb_base_ampr,    KC_AMPR,  KC_O, HM_L)
 
 COMB(comb_base_unds,    KC_UNDS,  KC_H, KC_N)
-COMB(comb_base_pmns,    KC_PMNS,  HM_J, KC_M)
+COMB(comb_base_pmns,    KC_MINS,  HM_J, KC_M)
 COMB(comb_base_psls,    KC_PSLS,  HM_K, KC_COMM)
 COMB(comb_base_pipe,    KC_PIPE, HM_L, KC_DOT)
