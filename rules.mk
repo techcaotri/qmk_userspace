@@ -153,7 +153,7 @@ ifeq ($(strip $(OLED_ENABLE)), yes)
     ifneq ($(strip $(OLED)),)
         OPT_DEFS += -D$(OLED)
         # SRC += oled_icons.c oled_luna.c
-        SRC += oled_icons.c oled_bongocat.c
+        SRC += oled_icons_new.c oled_bongocat.c
         WPM_ENABLE = yes
     else
         SRC += oled_icons.c oled_bongocat.c
