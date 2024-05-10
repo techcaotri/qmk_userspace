@@ -22,8 +22,43 @@
 #include <stdint.h>
 #include QMK_KEYBOARD_H
 
+#define ANIMATION_FRAME_DURATION 200 // milliseconds
+#define RUN_INTERVAL ANIMATION_FRAME_DURATION * 2
+#define WALK_INTERVAL ANIMATION_FRAME_DURATION * 8
+
+#define RENDER_SIZE 35
+#define RENDER_TOTAL_PIXELS (RENDER_SIZE * RENDER_SIZE)
+// scale based on 255, it affects the density of the rain
+#define CURRENT_SCALE_DOWN 200
+#define RAIN_SPEED_SLOW 11
+#define RAIN_SPEED_NORMAL 7
+#define RAIN_SPEED_FAST 3
+
+#define APPLE_LOGO_DELTA_FAST 3
+#define APPLE_LOGO_DELTA_NORMAL 2
+#define APPLE_LOGO_DELTA_SLOW 1
+#define APPLE_LOGO_ON_DURATION (3000 / ANIMATION_FRAME_DURATION) // 3 seconds
+#define APPLE_LOGO_OFF_DURATION (1000 / ANIMATION_FRAME_DURATION) // 1 second
+
 // Draw hacker with laptop logo
-static void render_my_logo(void) {
+static int8_t render_apple_logo_count = 6;
+static uint8_t apple_logo_duration_count = 0;
+static void render_my_logo(uint8_t const speed) {
+  static const char PROGMEM raw_logo_apple[] = {
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0x30, 0x0c,
+      0x02, 0x82, 0x81, 0x81, 0x81, 0x81, 0x81, 0x82, 0x04, 0x08, 0xf0, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x07, 0x38, 0xfe, 0xcf, 0x1f, 0x0f, 0x0f,
+      0x0f, 0x07, 0x03, 0x8f, 0xef, 0xfe, 0x1f, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xb0, 0xe8, 0xe4, 0x22,
+      0x22, 0x21, 0x21, 0x20, 0x20, 0x23, 0x2e, 0x3e, 0xbe, 0xfe, 0x66, 0x21,
+      0x20, 0x20, 0x21, 0x21, 0x22, 0x24, 0xc8, 0xd0, 0xe0, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0xff, 0x03, 0x03, 0x78, 0x00, 0x00, 0x00, 0x3c,
+      0x7e, 0xff, 0xff, 0xff, 0x7e, 0xfe, 0xff, 0xff, 0x73, 0x22, 0x00, 0x00,
+      0xc0, 0x1f, 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x01, 0x01, 0x01, 0x01, 0x07, 0x04, 0x04, 0x04, 0x04, 0x04, 0x06, 0x06,
+      0x06, 0x06, 0x06, 0x04, 0x04, 0x04, 0x04, 0x04, 0x07, 0x01, 0x01, 0x01,
+      0x00, 0x00, 0x00, 0x00};
   static const char PROGMEM raw_logo[] = {
       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0x30, 0x0c,
       0x02, 0x82, 0x81, 0x81, 0x81, 0x81, 0x81, 0x82, 0x04, 0x08, 0xf0, 0x00,
@@ -39,21 +74,22 @@ static void render_my_logo(void) {
       0x01, 0x01, 0x01, 0x01, 0x07, 0x04, 0x04, 0x04, 0x04, 0x04, 0x07, 0x07,
       0x07, 0x07, 0x07, 0x04, 0x04, 0x04, 0x04, 0x04, 0x07, 0x01, 0x01, 0x01,
       0x00, 0x00, 0x00, 0x00};
-  oled_write_raw_P(raw_logo, sizeof(raw_logo));
+  render_apple_logo_count = render_apple_logo_count - speed;
+  if (render_apple_logo_count <= 0) {
+    oled_write_raw_P(raw_logo_apple, sizeof(raw_logo_apple));
+    apple_logo_duration_count++;
+    if (apple_logo_duration_count >= APPLE_LOGO_ON_DURATION) {
+      render_apple_logo_count = 6;
+      apple_logo_duration_count = 0;
+    }
+  } else {
+    oled_write_raw_P(raw_logo, sizeof(raw_logo));
+    apple_logo_duration_count++;
+    if (apple_logo_duration_count >= APPLE_LOGO_OFF_DURATION) {
+      render_apple_logo_count = 0;
+    }
+  }
 }
-
-#define ANIMATION_FRAME_DURATION 200 // milliseconds
-#define RUN_INTERVAL ANIMATION_FRAME_DURATION * 2
-#define WALK_INTERVAL ANIMATION_FRAME_DURATION * 8
-
-#define RENDER_SIZE 35
-#define RENDER_TOTAL_PIXELS (RENDER_SIZE * RENDER_SIZE)
-#define CURRENT_SCALE_DOWN                                                     \
-  200 // scale based on 255, it affects the density of the rain
-
-#define RAIN_SPEED_SLOW 9
-#define RAIN_SPEED_NORMAL 8
-#define RAIN_SPEED_FAST 3
 
 uint8_t l[RENDER_TOTAL_PIXELS];
 uint8_t b[RENDER_TOTAL_PIXELS];
@@ -87,7 +123,7 @@ static void render_digital_rain(void) {
         if (cols >= 9 && cols <= 22)
           continue;
       }
-      if (l[rows * RENDER_SIZE + cols] > 0x90) {
+      if (l[rows * RENDER_SIZE + cols] > 0x30) {
         oled_write_pixel(cols, rows, true);
       } else {
         oled_write_pixel(cols, rows, false);
@@ -96,40 +132,41 @@ static void render_digital_rain(void) {
   }
 }
 
-static void digital_rain_action(uint8_t speed) {
+static void digital_rain_action(uint8_t speed, uint8_t const apple_logo_speed) {
   i = RENDER_SIZE;
   while (i--)
     // Faster raining speed
     // b[i] = !random(3) ? random(2) : 0;
     // Normal raining speed
-    b[i] = !random_max(speed % 9) ? random_max(2) : 0;
+    b[i] = !random_max(speed) ? random_max(2) : 0;
   memmove(b + RENDER_SIZE, b, RENDER_TOTAL_PIXELS - RENDER_SIZE);
   while (++i < RENDER_TOTAL_PIXELS)
     if (b[i])
       l[i] = ~0;
   // Scale all LEDs' brightness (each RGB values of each pixel) to under 200
-  scale_down(l, RENDER_TOTAL_PIXELS, 150);
+  scale_down(l, RENDER_TOTAL_PIXELS, 200);
 
   oled_set_cursor(0, 0);
-  render_my_logo();
+  render_my_logo(apple_logo_speed);
+  oled_set_cursor(0, 1);
   render_digital_rain();
 }
 
-static void animate_digital_rain(uint32_t interval) { 
+static void animate_digital_rain(uint32_t interval) {
   uint8_t const mods = get_mods();
   bool const caps = host_keyboard_led_state().caps_lock;
 
   if (mods & MOD_MASK_SHIFT || caps)
-    digital_rain_action(RAIN_SPEED_NORMAL);
+    digital_rain_action(RAIN_SPEED_NORMAL, APPLE_LOGO_DELTA_NORMAL);
 
   if (mods & MOD_MASK_CAG)
-    digital_rain_action(RAIN_SPEED_SLOW);
+    digital_rain_action(RAIN_SPEED_SLOW, APPLE_LOGO_DELTA_SLOW);
   else if (interval < RUN_INTERVAL)
-    digital_rain_action(RAIN_SPEED_NORMAL);
+    digital_rain_action(RAIN_SPEED_FAST, APPLE_LOGO_DELTA_FAST);
   else if (interval < WALK_INTERVAL)
-    digital_rain_action(RAIN_SPEED_SLOW);
+    digital_rain_action(RAIN_SPEED_NORMAL, APPLE_LOGO_DELTA_NORMAL);
   else
-    digital_rain_action(RAIN_SPEED_SLOW);
+    digital_rain_action(RAIN_SPEED_SLOW, APPLE_LOGO_DELTA_SLOW);
 }
 
 static void render_digital_rain_status(void) {
@@ -140,13 +177,12 @@ static void render_digital_rain_status(void) {
     oled_off();
   } else if (timer_elapsed(frame_timer) > ANIMATION_FRAME_DURATION) {
     frame_timer = timer_read();
-    animate_digital_rain(timer_elapsed32(input_timer)); 
+    animate_digital_rain(timer_elapsed32(input_timer));
   }
 }
 
 static void render_wpm(void) {
-  oled_set_cursor(0, 4);
-  oled_write(PSTR("WPM: "), false);
+  oled_set_cursor(0, 5);
   oled_write_ln(get_u8_str(get_current_wpm(), ' '), false);
 }
 
