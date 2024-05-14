@@ -23,13 +23,13 @@
 #include QMK_KEYBOARD_H
 
 #define ANIMATION_FRAME_DURATION 200 // milliseconds
-#define RUN_INTERVAL ANIMATION_FRAME_DURATION * 2
+#define RUN_INTERVAL ANIMATION_FRAME_DURATION * 4
 #define WALK_INTERVAL ANIMATION_FRAME_DURATION * 8
 
 #define RENDER_SIZE 35
 #define RENDER_TOTAL_PIXELS (RENDER_SIZE * RENDER_SIZE)
 // scale based on 255, it affects the density of the rain
-#define CURRENT_SCALE_DOWN 200
+#define CURRENT_SCALE_DOWN 185
 
 #define RAIN_PROBABILITY_DISTRIBUTION_SMALL 3   // there is a 1/3 chance of rain dot pixel
 #define RAIN_PROBABILITY_DISTRIBUTION_MEDIUM 7
@@ -148,7 +148,7 @@ static void digital_rain_action(uint8_t speed, uint8_t const apple_logo_speed) {
     if (b[i])
       l[i] = ~0;
   // Scale all LEDs' brightness (each RGB values of each pixel) to under 200
-  scale_down(l, RENDER_TOTAL_PIXELS, 200);
+  scale_down(l, RENDER_TOTAL_PIXELS, CURRENT_SCALE_DOWN);
 
   oled_set_cursor(0, 0);
   render_my_logo(apple_logo_speed);

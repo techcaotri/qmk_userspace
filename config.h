@@ -56,8 +56,8 @@
 #endif
 
 #ifdef OLED_ENABLE
-#   define OLED_TIMEOUT 10000
-#   define OLED_BRIGHTNESS 180
+#   define OLED_TIMEOUT 15000
+#   define OLED_BRIGHTNESS 200
 #   define OLED_FONT_H "oled_font.c"
 #endif
 
