@@ -35,9 +35,6 @@ COMB(tog_num,  TG(NUM),  NUM_BSP, KC_N, TH_M)
 COMB(tog_fnc,  TG(FNC),  FNC, KC_B, KC_V)
 
 /* Horizontal combos - left hand */
-COMB(comb_base_esc,     KC_ESC,   KC_W, KC_E)
-COMB(comb_base_enter,   KC_ENT,   KC_E, KC_R)
-
 COMB(comb_base_a,       C_S_T(KC_NO),  HM_A, HM_S)
 COMB(comb_base_tab,     LCA_T(KC_TAB), HM_S, HM_D)
 COMB(comb_base_spc,     LAG_T(KC_NO),  HM_D, HM_F)
